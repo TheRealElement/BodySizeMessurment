@@ -1,0 +1,69 @@
+
+
+BodySize Measurement — Tech Stack & Architecture (One-Pager)
+
+What it does:
+
+Web client uploads front/back/left/right photos + height & gender.
+ASP.NET Core API returns **body measurements** (chest, waist, hips, shoulders, torso) and **EU top/bottom sizes.
+3D view shows a mannequin with **measurement rings at chest/waist/hips/shoulders, scaled by height.
+
+Stack (by layer)
+
+Backend (API)
+NET 8 / ASP.NET Core (Kestrel)**
+ASP.NET Core MVC Controllers** — endpoint: `POST /api/Analyze/analyze`
+System.Text.Json** — camelCase JSON
+Swashbuckle / Swagger** — interactive docs at `/swagger`
+Static files** — serves `/wwwroot/web/*` (DefaultFiles + StaticFiles)
+FormOptions** — raised `MultipartBodyLengthLimit` for large image uploads
+SixLabors.ImageSharp** — image processing (NuGet)
+
+Frontend (Web)
+
+HTML5 / CSS3** — responsive grid (2×2 photos + right panel)
+Vanilla JavaScript (ES6+)
+
+Drag & Drop API** + File input + URL.createObjectURL previews
+Fetch + FormData** for multipart upload
+Three.js** (WebGL)
+
+Core Three, OrbitControls, GLTFLoader
+TorusGeometry rings with emissive glow
+Auto-loads local `/web/assets/mannequin-male.glb` / `mannequin-female.glb` if present
+Fallback to **Khronos Cesium Man / Girl** models from the web
+
+Dev & Build
+
+.NET SDK 8, Visual Studio 2022 (or `dotnet run`)
+NuGet (Swashbuckle, ImageSharp, etc.)
+Optional CDNs/remote assets for glTF fallback
+
+ API Contract
+
+Request** (multipart/form-data):
+
+Files: `front`, `back`, `left`, `right` (JPEG/PNG)
+Fields: `heightCm` (or `height`), `gender` (“male”/“female”)
+The client sends several **synonyms** (e.g., `heightCm`, `height`, `HeightCm`, …) for resiliency.
+
+Response (JSON):
+
+json
+{
+"chest": 98.0,
+"waist": 87.5,
+"hips": 101.5,
+"shoulders": 71.8,
+"torsoLength": 56.0,
+"topSize": "M",
+"bottomSize": "M"
+}
+
+
+Appendix A — Key Files (web client)
+
+* `wwwroot/web/index.html` — markup, inputs, canvas.
+* `wwwroot/web/web.css` — dark, rounded cards; responsive grid.
+* `wwwroot/web/web.js` — uploads, error handling, Three.js viewer, rings, mannequin loader.
+

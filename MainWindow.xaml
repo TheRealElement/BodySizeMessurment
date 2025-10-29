@@ -1,0 +1,43 @@
+<Window x:Class="BodySize.ClientSharpDX.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
+        mc:Ignorable="d"
+        Title="BodySize • SharpDX Preview" Height="720" Width="960"
+        Background="#FFF9FAFB">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <DockPanel Grid.Row="0" Margin="12">
+      <TextBlock Text="3D Preview (SharpDX)" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+        <Button Margin="12,0,0,0" Padding="12,6" Click="BtnRecenter_Click">Recenter</Button>
+        <Button Margin="8,0,0,0" Padding="12,6" Click="BtnExport_Click">Export PNG</Button>
+      </StackPanel>
+    </DockPanel>
+
+<Grid Grid.Row="1">
+    <hx:Viewport3DX x:Name="View" Grid.Row="1" ShowCoordinateSystem="False" 
+                        Background="#FFF9FAFB"  >
+      <!-- Camera -->
+      <hx:Viewport3DX.Camera>
+        <hx:PerspectiveCamera x:Name="Cam" Position="0,180,380" LookDirection="0,-60,-260" UpDirection="0,1,0" FieldOfView="45"/>
+      </hx:Viewport3DX.Camera>
+      <!-- Lights -->
+      <hx:AmbientLight3D Color="#FFD0D0D0"/>
+      <hx:DirectionalLight3D Color="#FFFFFFFF" Direction="-0.2,-1,-0.3"/>
+      <hx:DirectionalLight3D Color="#FFB0B0B0" Direction="0.4,-0.2,0.7"/>
+
+      <!-- Scene root -->
+      <hx:GroupModel3D x:Name="SceneRoot"/>
+    </hx:Viewport3DX>
+  <TextBlock x:Name="Hint" Text="Load a model (OBJ) to see the mannequin" Foreground="#66000000" FontSize="14"
+             HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,16,0,0" IsHitTestVisible="False"/>
+</Grid>
+  </Grid>
+</Window>

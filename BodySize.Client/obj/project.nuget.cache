@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "/d5kQ6WU6oY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Denis\\Desktop\\BodySizeMessurment-FinalProjectV3\\BodySizeMessurment-FinalProject\\BodySize.Client\\BodySize.Client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Denis\\.nuget\\packages\\materialdesigncolors\\3.1.0\\materialdesigncolors.3.1.0.nupkg.sha512",
+    "C:\\Users\\Denis\\.nuget\\packages\\materialdesignthemes\\5.1.0\\materialdesignthemes.5.1.0.nupkg.sha512",
+    "C:\\Users\\Denis\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+    "C:\\Users\\Denis\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

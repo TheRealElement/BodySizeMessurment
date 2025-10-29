@@ -1,0 +1,145 @@
+<Window x:Class="BodySize.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Body Size Measurement" Height="820" Width="1260"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True" SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        TextOptions.TextHintingMode="Fixed">
+    <DockPanel Margin="18">
+        <!-- Top bar -->
+        <Border DockPanel.Dock="Top" Padding="16" CornerRadius="12">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#F3F4F6" Offset="0"/>
+                    <GradientStop Color="#FFFFFF" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <TextBlock Text="BodySize Measurement" FontSize="28" FontWeight="SemiBold" />
+                    <TextBlock Text="  ·  Client" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Bottom" Margin="6,0,0,6"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
+                    <Button Content="Analyze (Enter)" Click="BtnAnalyze_Click" Style="{StaticResource PrimaryButton}"/>
+                    <Button Content="Reset (Ctrl+R)" Click="BtnReset_Click" Style="{StaticResource SecondaryButton}"/>
+                    <Button Content="Show 3D" Click="BtnGo3D_Click" Style="{StaticResource SecondaryButton}"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <TabControl x:Name="Tabs" Margin="0,16,0,0">
+            <!-- Photos Tab -->
+            <TabItem Header="Photos &amp; Results">
+                <Grid Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Image zones -->
+                    <UniformGrid Grid.Column="0" Rows="2" Columns="2" Margin="0,0,16,0">
+                        <!-- Front -->
+                        <Border Style="{StaticResource AppCard}" AllowDrop="True" Drop="Front_Drop" MouseUp="BtnFront_Click">
+                            <Grid>
+                                <Image Name="ImgFront" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock Name="LblFront" Text="Select Front…  (click or drag)" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.6"/>
+                                <Button Content="×" Width="28" Height="28" Click="ClearFront_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6"/>
+                            </Grid>
+                        </Border>
+                        <!-- Back -->
+                        <Border Style="{StaticResource AppCard}" AllowDrop="True" Drop="Back_Drop" MouseUp="BtnBack_Click">
+                            <Grid>
+                                <Image Name="ImgBack" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock Name="LblBack" Text="Select Back…  (click or drag)" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.6"/>
+                                <Button Content="×" Width="28" Height="28" Click="ClearBack_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6"/>
+                            </Grid>
+                        </Border>
+                        <!-- Left -->
+                        <Border Style="{StaticResource AppCard}" AllowDrop="True" Drop="Left_Drop" MouseUp="BtnLeft_Click">
+                            <Grid>
+                                <Image Name="ImgLeft" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock Name="LblLeft" Text="Select Left…  (click or drag)" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.6"/>
+                                <Button Content="×" Width="28" Height="28" Click="ClearLeft_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6"/>
+                            </Grid>
+                        </Border>
+                        <!-- Right -->
+                        <Border Style="{StaticResource AppCard}" AllowDrop="True" Drop="Right_Drop" MouseUp="BtnRight_Click">
+                            <Grid>
+                                <Image Name="ImgRight" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock Name="LblRight" Text="Select Right…  (click or drag)" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.6"/>
+                                <Button Content="×" Width="28" Height="28" Click="ClearRight_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6"/>
+                            </Grid>
+                        </Border>
+                    </UniformGrid>
+
+                    <!-- Results -->
+                    <Border Grid.Column="1" Style="{StaticResource AppCard}">
+                        <StackPanel>
+                            <TextBlock Text="Results" FontSize="18" FontWeight="SemiBold"/>
+                            <ItemsControl Name="ListResults" Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Controls / tips -->
+                    <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12,0,0">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" VerticalAlignment="Center">
+                            <TextBlock Text="Height (cm):" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Name="TxtHeight" Width="80" Text="175" />
+                            <TextBlock Text="  Gender:" VerticalAlignment="Center" Margin="16,0,8,0"/>
+                            <ComboBox Name="CmbGender" Width="120">
+                                <ComboBoxItem Content="male" IsSelected="True"/>
+                                <ComboBoxItem Content="female"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <TextBlock DockPanel.Dock="Right" Opacity="0.7" VerticalAlignment="Center" TextAlignment="Right">
+                            Server: http://localhost:5189  •  Tips: use full-body photos for best scale. Drag &amp; drop supported.
+                        </TextBlock>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+
+            
+<!-- 3D Preview Tab -->
+<TabItem Header="3D Preview">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource AppCard}">
+            <Viewport3D Name="View3D" MouseDown="View3D_MouseDown" MouseMove="View3D_MouseMove" MouseUp="View3D_MouseUp" MouseWheel="View3D_MouseWheel"/>
+        </Border>
+
+        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource AppCard}" Margin="12,0,0,0">
+            <StackPanel>
+                <TextBlock Text="3D Preview • Results" FontSize="18" FontWeight="SemiBold"/>
+                <ItemsControl Name="ListResults3D" Margin="0,8,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+                        <Button Content="Back to Photos" Click="BtnBackToPhotos_Click" Style="{StaticResource SecondaryButton}"/>
+            <Button Content="Recenter" Click="BtnRecenter_Click" Style="{StaticResource SecondaryButton}"/>
+            <Button Content="Export PNG" Click="BtnExportPng_Click" Style="{StaticResource PrimaryButton}"/>
+        </StackPanel>
+    </Grid>
+</TabItem>
+
+        </TabControl>
+    </DockPanel>
+</Window>

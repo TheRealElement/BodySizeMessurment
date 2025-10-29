@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BodySize • Web</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://unpkg.com/three@0.156.1/build/three.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header>
+    <h1>BodySize Measurement</h1>
+    <span class="env">web demo</span>
+  </header>
+
+  <main>
+    <section class="left">
+      <div class="cards">
+        <div class="card"><label>Front<input type="file" id="front" accept="image/*"></label><img id="frontPreview"></div>
+        <div class="card"><label>Back<input type="file" id="back" accept="image/*"></label><img id="backPreview"></div>
+        <div class="card"><label>Left<input type="file" id="left" accept="image/*"></label><img id="leftPreview"></div>
+        <div class="card"><label>Right<input type="file" id="right" accept="image/*"></label><img id="rightPreview"></div>
+      </div>
+
+      <div class="controls">
+        <label>Height (cm) <input type="number" id="height" value="175" min="120" max="220"></label>
+        <label>Gender
+          <select id="gender">
+            <option value="male">male</option>
+            <option value="female">female</option>
+          </select>
+        </label>
+        <button id="analyze">Analyze</button>
+        <span id="status"></span>
+      </div>
+
+      <div class="results" id="results">
+        <h3>Results</h3>
+        <pre id="resultsText">–</pre>
+      </div>
+    </section>
+
+    <section class="right">
+      <div id="viewer"></div>
+      <div class="viewer-controls">
+        <button id="loadGlb">Load mannequin (GLB/GLTF)…</button>
+        <button id="resetView">Recenter</button>
+      </div>
+      <small class="hint">Drop a <code>mannequin.glb</code> in <code>assets/</code> to auto-load, or use the button above.</small>
+    </section>
+  </main>
+
+  <footer>
+    <span>Server URL:</span>
+    <input id="serverUrl" value="http://localhost:5189" size="30">
+    <button id="saveUrl">Save</button>
+    <span id="saveInfo"></span>
+  </footer>
+</body>
+</html>
